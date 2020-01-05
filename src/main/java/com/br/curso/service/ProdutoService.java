@@ -1,12 +1,16 @@
 package com.br.curso.service;
 
 import java.util.Collection;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
+import com.br.curso.domain.Categoria;
 import com.br.curso.domain.Produto;
 import com.br.curso.repository.ProdutoRepository;
+import com.br.curso.service.exception.ObjectNotFoundException;
 
 @Service
 public class ProdutoService {
@@ -29,7 +33,12 @@ public class ProdutoService {
 	}
 	
 	public Produto buscar(Integer id) {
-		return repository.findById(id).get();
+		Optional<Produto> prod = repository.findById(id);
+		if(prod.isPresent() == false) {
+			throw new ObjectNotFoundException("Objeto não encontrado. ID: " + id
+					+ ", Tipo: " + Categoria.class.getName());
+		}
+		return prod.get();
 	}
 	public Produto atualizar(Produto cat) {
 		return repository.save(cat);

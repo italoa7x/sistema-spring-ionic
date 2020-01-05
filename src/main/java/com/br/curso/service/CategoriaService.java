@@ -1,12 +1,14 @@
 package com.br.curso.service;
 
 import java.util.Collection;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.br.curso.domain.Categoria;
 import com.br.curso.repository.CategoriaRepository;
+import com.br.curso.service.exception.ObjectNotFoundException;
 
 @Service
 public class CategoriaService {
@@ -29,9 +31,18 @@ public class CategoriaService {
 	}
 	
 	public Categoria buscar(Integer id) {
-		return repository.findById(id).get();
+		Optional<Categoria> cat = repository.findById(id);
+		if(cat.isPresent() == false) {
+			throw new ObjectNotFoundException("Objeto não encontrado. ID: " + id
+					+ ", Tipo: " + Categoria.class.getName());
+		}
+		return cat.get();
 	}
 	public Categoria atualizar(Categoria cat) {
+		cat = this.buscar(cat.getId());
+		if(cat == null) {
+			return null;
+		}
 		return repository.save(cat);
 	}
 }

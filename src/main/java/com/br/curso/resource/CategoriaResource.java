@@ -5,11 +5,13 @@ import java.util.Collection;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -41,9 +43,6 @@ public class CategoriaResource {
 	@GetMapping("/{id}")
 	public ResponseEntity<Categoria> buscarPorId(@PathVariable Integer id){
 		Categoria cat = service.buscar(id);
-		if(cat == null) {
-			throw new RuntimeException("Categoria não cadastrada");
-		}
 		return ResponseEntity.ok().body(cat);
 	}
 	
@@ -54,5 +53,15 @@ public class CategoriaResource {
 			return service.listar();
 		}
 		throw new RuntimeException("Erro ao excluir categoria");
+	}
+	
+	@PutMapping("/{id}")
+	public Categoria atualizar(@PathVariable Integer idCat, @RequestBody Categoria cat) {
+		cat.setId(idCat);
+		cat = service.atualizar(cat);
+		if(cat != null) {
+			return cat;
+		}
+		throw new RuntimeException("Erro ao atualizar categoria");
 	}
 }

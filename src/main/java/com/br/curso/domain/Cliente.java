@@ -1,6 +1,9 @@
 package com.br.curso.domain;
 
 import com.br.curso.domain.enuns.TipoCliente;
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.HashSet;
@@ -31,6 +34,7 @@ public class Cliente implements Serializable {
 	private String nome, email;
 	private Integer tipo;
 
+	@JsonManagedReference
 	@OneToMany(mappedBy = "cliente")
 	private List<Endereco> enderecos = new ArrayList<>();
 
@@ -41,12 +45,12 @@ public class Cliente implements Serializable {
 	public Cliente() {
 	}
 
-	public Cliente(Integer id, String nome, String email, Integer tipo) {
+	public Cliente(Integer id, String nome, String email, TipoCliente tipo) {
 		super();
 		this.id = id;
 		this.nome = nome;
 		this.email = email;
-		this.tipo = tipo;
+		this.tipo = tipo.getCod();
 	}
 
 	public Set<String> getTelefone() {

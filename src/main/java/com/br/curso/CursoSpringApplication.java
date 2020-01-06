@@ -73,20 +73,16 @@ public class CursoSpringApplication implements CommandLineRunner{
 		estado.saveAll(Arrays.asList(est1, est2));
 		cidade.saveAll(Arrays.asList(cid1, cid2, cid3));
 		
-		/**
-		Cliente c1 = new Cliente("Italo", "italo@gmail.com", TipoCliente.PESSOAFISICA);
-		Cliente c2 = new Cliente("Ana", "ana@hotmail.com", TipoCliente.PESSOAJURIDICA);
+		Cliente c1 = new Cliente(null, "Italo", "italo@gmail.com", TipoCliente.PESSOAFISICA);
+		c1.getTelefone().addAll(Arrays.asList("83-998354447","3351-1044"));
+		Endereco e1 = new Endereco("Rua Maria Ana", "05", "Saida pra Sertânia", "Vila manzuá", "58500-000", c1, cid1);
+		Endereco e2 = new Endereco("Roberto de Lima", "25", "Próximo a praça", "Vila popular", "58500-000", c1, cid3);
 		
-		Endereco end1 = new Endereco(null, 
-				"Manzuá", "05", "Saida pra Sertânia"
-				, "Vila manzua", c1, est1);
+		c1.getEnderecos().addAll(Arrays.asList(e1, e2));
 		
-		Endereco end2 = new Endereco(null,
-				"Rua morada nova", "100", "Vizinho a padaria", "Santo carmo", c1, est2);
+		cliente.saveAll(Arrays.asList(c1));
+		endereco.saveAll(Arrays.asList(e1, e2));
 		
-		cliente.saveAll(Arrays.asList(c1, c2));
-		endereco.saveAll(Arrays.asList(end1, end2));
-		**/
 	}
 	
 

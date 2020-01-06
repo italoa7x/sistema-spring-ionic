@@ -1,6 +1,6 @@
 package com.br.curso.service;
 
-import java.util.Collection;
+import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,17 +23,16 @@ public class CategoriaService {
 		return repository.save(cat);
 	}
 	
-	public boolean excluir(Integer id) {
+	public void excluir(Integer id) {
 		buscar(id);
 		try {
 			repository.deleteById(id);
-			return true;
 		}catch(DataIntegrityViolationException ex) {
 			throw new DataIntegratyException("Não é possível excluir uma categoria que possui produtos.");
 		}
 	}
 	
-	public Collection<Categoria> listar(){
+	public List<Categoria> listar(){
 		return repository.findAll();
 	}
 	

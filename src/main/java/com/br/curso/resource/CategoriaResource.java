@@ -2,11 +2,12 @@ package com.br.curso.resource;
 
 import java.net.URI;
 import java.util.Collection;
+import java.util.List;
+import java.util.stream.Collectors;
 
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -19,6 +20,7 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import com.br.curso.domain.Categoria;
+import com.br.curso.dto.CategoriaDTO;
 import com.br.curso.service.CategoriaService;
 
 @RestController
@@ -28,8 +30,10 @@ public class CategoriaResource {
 	private CategoriaService service;
 
 	@GetMapping()
-	public Collection<Categoria> listar() {
-		return service.listar();
+	public List<CategoriaDTO> listar() {
+		List<Categoria> listaCats = service.listar();
+		List<CategoriaDTO> listaDtos = listaCats.stream().map(obj -> new CategoriaDTO(obj)).collect(Collectors.toList());
+		return listaDtos;
 	}
 
 	@PostMapping()

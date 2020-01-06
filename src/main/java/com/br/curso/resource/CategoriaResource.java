@@ -40,11 +40,11 @@ public class CategoriaResource {
 	}
 
 	@PostMapping()
-	public ResponseEntity<Categoria> salvar(@Valid @RequestBody Categoria cat) {
-		cat = service.salvar(cat);
-		if (cat != null) {
+	public ResponseEntity<Categoria> salvar(@Valid @RequestBody CategoriaDTO catDto) {
+		Categoria obj = service.salvar(service.fromDTO(catDto));
+		if (obj != null) {
 			URI uri = ServletUriComponentsBuilder.fromCurrentContextPath().path("categorias/{id}")
-					.buildAndExpand(cat.getId()).toUri();
+					.buildAndExpand(obj.getId()).toUri();
 			return ResponseEntity.created(uri).build();
 		}
 		throw new RuntimeException("Erro ao salvar categoria.");
@@ -64,9 +64,9 @@ public class CategoriaResource {
 	}
 
 	@PutMapping("/{id}")
-	public ResponseEntity<Categoria> atualizar(@RequestBody Categoria obj, @PathVariable Integer id) {
-		obj.setId(id);
-		obj = service.atualizar(obj);
+	public ResponseEntity<Categoria> atualizar(@RequestBody CategoriaDTO objDto, @PathVariable Integer id) {
+		objDto.setId(id);
+		Categoria obj = service.atualizar(service.fromDTO(objDto));
 		return ResponseEntity.noContent().build();
 	}
 

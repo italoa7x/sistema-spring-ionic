@@ -11,6 +11,7 @@ import org.springframework.data.domain.Sort.Direction;
 import org.springframework.stereotype.Service;
 
 import com.br.curso.domain.Categoria;
+import com.br.curso.dto.CategoriaDTO;
 import com.br.curso.repository.CategoriaRepository;
 import com.br.curso.service.exception.DataIntegratyException;
 import com.br.curso.service.exception.ObjectNotFoundException;
@@ -19,6 +20,10 @@ import com.br.curso.service.exception.ObjectNotFoundException;
 public class CategoriaService {
 	@Autowired
 	private CategoriaRepository repository;
+
+	public Categoria fromDTO(CategoriaDTO objDto) {
+		return new Categoria(objDto.getNome());
+	}
 
 	public Categoria salvar(Categoria cat) {
 		cat.setId(null);

@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.br.curso.domain.Cliente;
+import com.br.curso.dto.ClienteDTO;
 import com.br.curso.repository.ClienteRepository;
 import com.br.curso.service.exception.ObjectNotFoundException;
 
@@ -15,6 +16,10 @@ public class ClienteService {
 	@Autowired
 	private ClienteRepository repository;
 	
+	public Cliente fromDTO(ClienteDTO objDto) {
+		return new Cliente(objDto.getId(), objDto.getNome(), objDto.getEmail()
+				, objDto.getTipo(), objDto.getCpfOuCnpj());
+	}
 	
 	public Cliente salvar(Cliente obj) {
 		obj.setId(null);

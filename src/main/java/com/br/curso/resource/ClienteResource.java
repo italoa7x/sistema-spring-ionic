@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.br.curso.domain.Cliente;
+import com.br.curso.dto.ClienteDTO;
 import com.br.curso.service.ClienteService;
 
 @RestController
@@ -30,10 +31,10 @@ public class ClienteResource {
 	}
 
 	@PostMapping()
-	public ResponseEntity<Cliente> salvar(@Valid @RequestBody Cliente cat) {
-		cat = service.salvar(cat);
-		if (cat != null) {
-			return ResponseEntity.ok().body(cat);
+	public ResponseEntity<Cliente> salvar(@Valid @RequestBody ClienteDTO obj) {
+		Cliente cli = service.salvar(service.fromDTO(obj));
+		if (cli != null) {
+			return ResponseEntity.ok().body(cli);
 		}
 		throw new RuntimeException("Erro ao salvar cliente.");
 
@@ -41,8 +42,8 @@ public class ClienteResource {
 
 	@GetMapping("/{id}")
 	public ResponseEntity<Cliente> buscarPorId(@PathVariable Integer id){
-		Cliente cat = service.buscar(id);
-		return ResponseEntity.ok().body(cat);
+		Cliente obj = service.buscar(id);
+		return ResponseEntity.ok().body(obj);
 	}
 	
 	@DeleteMapping("/{id}")

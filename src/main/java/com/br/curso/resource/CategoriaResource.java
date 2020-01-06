@@ -51,12 +51,9 @@ public class CategoriaResource {
 	}
 
 	@DeleteMapping("/{id}")
-	public Collection<Categoria> excluir(@PathVariable Integer id) {
-		boolean response = service.excluir(id);
-		if (response) {
-			return service.listar();
-		}
-		throw new RuntimeException("Erro ao excluir categoria");
+	public void excluir(@PathVariable Integer id) {
+		service.excluir(id);
+
 	}
 
 	@PutMapping("/{id}")

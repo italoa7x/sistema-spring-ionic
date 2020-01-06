@@ -39,10 +39,7 @@ public class CategoriaService {
 		return cat.get();
 	}
 	public Categoria atualizar(Categoria cat) {
-		cat = this.buscar(cat.getId());
-		if(cat == null) {
-			return null;
-		}
+		buscar(cat.getId());
 		return repository.save(cat);
 	}
 }

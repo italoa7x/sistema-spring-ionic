@@ -45,27 +45,24 @@ public class CategoriaResource {
 	}
 
 	@GetMapping("/{id}")
-	public ResponseEntity<Categoria> buscarPorId(@PathVariable Integer id){
+	public ResponseEntity<Categoria> buscarPorId(@PathVariable Integer id) {
 		Categoria cat = service.buscar(id);
 		return ResponseEntity.ok().body(cat);
 	}
-	
+
 	@DeleteMapping("/{id}")
-	public Collection<Categoria> excluir(@PathVariable Integer id){
+	public Collection<Categoria> excluir(@PathVariable Integer id) {
 		boolean response = service.excluir(id);
-		if(response) {
+		if (response) {
 			return service.listar();
 		}
 		throw new RuntimeException("Erro ao excluir categoria");
 	}
-	
+
 	@PutMapping("/{id}")
-	public Categoria atualizar(@PathVariable Integer idCat, @RequestBody Categoria cat) {
-		cat.setId(idCat);
-		cat = service.atualizar(cat);
-		if(cat != null) {
-			return cat;
-		}
-		throw new RuntimeException("Erro ao atualizar categoria");
+	public ResponseEntity<Categoria> atualizar(@RequestBody Categoria obj, @PathVariable Integer id) {
+		obj.setId(id);
+		obj = service.atualizar(obj);
+		return ResponseEntity.noContent().build();
 	}
 }

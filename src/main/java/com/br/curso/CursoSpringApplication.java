@@ -1,6 +1,8 @@
 package com.br.curso;
 
+import java.text.SimpleDateFormat;
 import java.util.Arrays;
+import java.util.Date;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
@@ -12,13 +14,20 @@ import com.br.curso.domain.Cidade;
 import com.br.curso.domain.Cliente;
 import com.br.curso.domain.Endereco;
 import com.br.curso.domain.Estado;
+import com.br.curso.domain.Pagamento;
+import com.br.curso.domain.PagamentoComBoleto;
+import com.br.curso.domain.PagamentoComCartao;
+import com.br.curso.domain.Pedido;
 import com.br.curso.domain.Produto;
+import com.br.curso.domain.enuns.EstadoPagamento;
 import com.br.curso.domain.enuns.TipoCliente;
 import com.br.curso.repository.CategoriaRepository;
 import com.br.curso.repository.CidadeRepository;
 import com.br.curso.repository.ClienteRepository;
 import com.br.curso.repository.EnderecoRepository;
 import com.br.curso.repository.EstadoRepository;
+import com.br.curso.repository.PagamentoRepository;
+import com.br.curso.repository.PedidoRepository;
 import com.br.curso.repository.ProdutoRepository;
 
 @SpringBootApplication
@@ -35,6 +44,10 @@ public class CursoSpringApplication implements CommandLineRunner{
 	private EnderecoRepository endereco;
 	@Autowired
 	private ClienteRepository cliente;
+	@Autowired
+	private PedidoRepository pedido;
+	@Autowired
+	private PagamentoRepository pagamento;
 	
 	public static void main(String[] args) {
 		SpringApplication.run(CursoSpringApplication.class, args);
@@ -79,9 +92,30 @@ public class CursoSpringApplication implements CommandLineRunner{
 		Endereco e2 = new Endereco("Roberto de Lima", "25", "Próximo a praça", "Vila popular", "58500-000", c1, cid3);
 		
 		c1.getEnderecos().addAll(Arrays.asList(e1, e2));
-		
+		//salva os clientes
 		cliente.saveAll(Arrays.asList(c1));
+		// slava os endereços
 		endereco.saveAll(Arrays.asList(e1, e2));
+		
+		// objeto de formatação
+		SimpleDateFormat sfd = new SimpleDateFormat("dd/MM/yyyy HH:mm");
+		
+		Pedido ped1 = new Pedido(null, sfd.parse("30/09/2017 10:32"), c1, e1);
+		Pedido ped2 = new Pedido(null, sfd.parse("10/10/2017 19:35"), c1, e2);
+		
+		Pagamento pag1 = new PagamentoComCartao(null, EstadoPagamento.QUITADO, ped1, 6);
+		ped1.setPagamento(pag1);
+		
+		Pagamento pag2 = new PagamentoComBoleto(null, EstadoPagamento.PENDENTE, ped2, sfd.parse("20/10/2017 00:00"), null);
+		ped2.setPagamento(pag2);
+		
+		c1.getPedidos().addAll(Arrays.asList(ped1, ped2));
+		
+		// salva os pagamentos
+		pagamento.saveAll(Arrays.asList(pag1, pag2));
+		// salva os pedidos	
+		pedido.saveAll(Arrays.asList(ped1, ped2));
+		
 		
 	}
 	

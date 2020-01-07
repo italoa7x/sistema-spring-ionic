@@ -52,7 +52,7 @@ public class Cliente implements Serializable {
 		this.nome = nome;
 		this.email = email;
 		this.tipo = (tipo == null ? null : tipo.getCod());
-		this.cpfOuCnpj =  cpfOuCnpj;
+		this.cpfOuCnpj = cpfOuCnpj;
 	}
 
 	public String getCpfOuCnpj() {
@@ -77,14 +77,6 @@ public class Cliente implements Serializable {
 
 	public void setPedidos(List<Pedido> pedidos) {
 		this.pedidos = pedidos;
-	}
-
-	public Set<String> getTelefone() {
-		return telefones;
-	}
-
-	public void setTelefone(Set<String> telefone) {
-		this.telefones = telefone;
 	}
 
 	public List<Endereco> getEnderecos() {

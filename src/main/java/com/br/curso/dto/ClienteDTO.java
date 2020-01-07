@@ -16,16 +16,14 @@ public class ClienteDTO implements Serializable {
 	@NotBlank(message = "O nome é obrigatório")
 	@Length(min = 20, max = 100, message = "O nome deve conter entre 20 e 100 caracteris")
 	private String nome;
+
 	@NotBlank(message = "O e-mail é obrigatório.")
 	@Email
 	private String email;
 
 	private Integer id;
-	
-	@NotBlank(message = "O cnpj/cpf é obrigatório.")
-	private String cpfOuCnpj;
 
-	private Integer tipo;
+	private String telefone1, telefone2, telefone3;
 
 	public ClienteDTO() {
 		// TODO Auto-generated constructor stub
@@ -35,16 +33,30 @@ public class ClienteDTO implements Serializable {
 		this.nome = cli.getNome();
 		this.email = cli.getEmail();
 		this.id = cli.getId();
-		this.cpfOuCnpj = cli.getCpfOuCnpj();
-		this.tipo = cli.getTipo().getCod();
 	}
 
-	public TipoCliente getTipo() {
-		return TipoCliente.toEnum(tipo);
+	public String getTelefone1() {
+		return telefone1;
 	}
 
-	public void setTipo(TipoCliente tipo) {
-		this.tipo = tipo.getCod();
+	public void setTelefone1(String telefone1) {
+		this.telefone1 = telefone1;
+	}
+
+	public String getTelefone2() {
+		return telefone2;
+	}
+
+	public void setTelefone2(String telefone2) {
+		this.telefone2 = telefone2;
+	}
+
+	public String getTelefone3() {
+		return telefone3;
+	}
+
+	public void setTelefone3(String telefone3) {
+		this.telefone3 = telefone3;
 	}
 
 	public String getNome() {
@@ -69,14 +81,6 @@ public class ClienteDTO implements Serializable {
 
 	public void setId(Integer id) {
 		this.id = id;
-	}
-
-	public String getCpfOuCnpj() {
-		return cpfOuCnpj;
-	}
-
-	public void setCpfOuCnpj(String cpfOuCnpj) {
-		this.cpfOuCnpj = cpfOuCnpj;
 	}
 
 }

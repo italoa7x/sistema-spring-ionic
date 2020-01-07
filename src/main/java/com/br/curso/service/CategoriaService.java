@@ -41,16 +41,19 @@ public class CategoriaService {
 
 	public Categoria buscar(Integer id) {
 		Optional<Categoria> cat = repository.findById(id);
-		if (cat.isPresent() == false) {
-			throw new ObjectNotFoundException(
-					"Objeto não encontrado. ID: " + id + ", Tipo: " + Categoria.class.getName());
-		}
-		return cat.get();
+		return cat.orElseThrow(() -> new ObjectNotFoundException(
+				"Objeto não encontrado! Id: " + id + ", Tipo: " + Categoria.class.getName()));
 	}
 
-	public Categoria atualizar(Categoria cat) {
-		buscar(cat.getId());
-		return repository.save(cat);
+	public Categoria atualizar(Categoria obj) {
+		Categoria newObj = this.buscar(obj.getId());
+		atualizarDados(newObj, obj);
+		return repository.save(newObj);
+	}
+
+	// seta os novos dados para a categoria buscada no banco.
+	private void atualizarDados(Categoria novoObj, Categoria obj) {
+		novoObj.setNome(obj.getNome());
 	}
 
 	public List<Categoria> listar() {

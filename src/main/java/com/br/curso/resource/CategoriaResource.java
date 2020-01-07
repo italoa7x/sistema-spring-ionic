@@ -23,6 +23,7 @@ import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import com.br.curso.domain.Categoria;
 import com.br.curso.dto.CategoriaDTO;
+import com.br.curso.dto.ClienteDTO;
 import com.br.curso.service.CategoriaService;
 
 @RestController
@@ -65,8 +66,9 @@ public class CategoriaResource {
 
 	@PutMapping("/{id}")
 	public ResponseEntity<Categoria> atualizar(@RequestBody CategoriaDTO objDto, @PathVariable Integer id) {
-		objDto.setId(id);
-		Categoria obj = service.atualizar(service.fromDTO(objDto));
+		Categoria obj = service.fromDTO(objDto);
+		obj.setId(id);
+		obj = service.atualizar(obj);
 		return ResponseEntity.noContent().build();
 	}
 

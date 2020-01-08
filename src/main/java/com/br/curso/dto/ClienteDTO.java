@@ -2,15 +2,16 @@ package com.br.curso.dto;
 
 import java.io.Serializable;
 
+
 import javax.validation.constraints.Email;
-import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotEmpty;
 
 import org.hibernate.validator.constraints.Length;
 
 import com.br.curso.domain.Cliente;
-import com.br.curso.domain.enuns.TipoCliente;
+import com.br.curso.service.validation.ClienteUpdate;
 
+@ClienteUpdate
 public class ClienteDTO implements Serializable {
 
 	private static final long serialVersionUID = 1L;
@@ -19,7 +20,7 @@ public class ClienteDTO implements Serializable {
 	private String nome;
 
 	@NotEmpty(message = "O e-mail é obrigatório.")
-	@Email
+	@Email(message = "Email invalido")
 	private String email;
 
 	private Integer id;

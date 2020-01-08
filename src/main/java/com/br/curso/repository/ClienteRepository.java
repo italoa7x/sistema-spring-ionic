@@ -9,6 +9,6 @@ import com.br.curso.domain.Cliente;
 @Repository
 public interface ClienteRepository extends JpaRepository<Cliente, Integer>{
 
-	@Transactional(readOnly = true)
+	@Transactional(readOnly=true)
 	Cliente findByEmail(String email);
 }

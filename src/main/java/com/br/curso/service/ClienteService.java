@@ -95,17 +95,16 @@ public class ClienteService {
 	}
 
 	public Cliente atualizar(Cliente obj) {
-		Cliente novoCli = this.buscar(obj.getId());
-		this.atualizarDados(obj, novoCli);
-		return repository.save(novoCli);
+		Cliente newObj = buscar(obj.getId());
+		atualizarDados(newObj, obj);
+		return repository.save(newObj);
 	}
 
-	private void atualizarDados(Cliente objComDadosInseridos, Cliente cliBuscadoNoBanco) {
-		cliBuscadoNoBanco.setNome(objComDadosInseridos.getNome());
-		cliBuscadoNoBanco.setEmail(objComDadosInseridos.getEmail());
-
+	private void atualizarDados(Cliente newObj, Cliente obj) {
+		newObj.setNome(obj.getNome());
+		newObj.setEmail(obj.getEmail());
 	}
-
+	
 	public Page<Cliente> listarPaginacao(Integer page, Integer linesPerPage, String orderby, String direction) {
 		PageRequest pageRequest = PageRequest.of(page, linesPerPage, Direction.valueOf(direction), orderby);
 		return repository.findAll(pageRequest);

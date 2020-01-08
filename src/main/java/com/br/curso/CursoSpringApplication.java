@@ -70,16 +70,39 @@ public class CursoSpringApplication implements CommandLineRunner{
 		Produto p1 = new Produto("Computador", 2000.00);
 		Produto p2 = new Produto("Impressora", 800.00);
 		Produto p3  = new Produto("mouse", 80.00);
+		Produto p4 = new Produto("mesa de escritorio", 300.00);
+		Produto p5 = new Produto("toalha", 50.00);
+		Produto p6 = new Produto("colcha", 200.00);
+		Produto p7 = new Produto("TV true color", 1200.00);
+		Produto p8 = new Produto("roçadeira", 800.00);
+		Produto p9 = new Produto("abajour", 100.00);
+		Produto p10 = new Produto("pendente", 100.00);
+		Produto p11 = new Produto("shampoo", 90.00);
+		
 		
 		catg1.getProdutos().addAll(Arrays.asList(p1, p2, p3));
-		catg2.getProdutos().addAll(Arrays.asList(p2));
+		catg2.getProdutos().addAll(Arrays.asList(p2, p4));
+		catg3.getProdutos().addAll(Arrays.asList(p5, p6));
+		catg4.getProdutos().addAll(Arrays.asList(p1, p2, p3, p7));
+		catg5.getProdutos().addAll(Arrays.asList(p8));
+		catg6.getProdutos().addAll(Arrays.asList(p9, p10));
+		catg7.getProdutos().addAll(Arrays.asList(p11));
 		
-		p1.getCategorias().addAll(Arrays.asList(catg1));
-		p2.getCategorias().addAll(Arrays.asList(catg1, catg2));
-		p3.getCategorias().addAll(Arrays.asList(catg1));
+		p1.getCategorias().addAll(Arrays.asList(catg1, catg4));
+		p2.getCategorias().addAll(Arrays.asList(catg1, catg2, catg4));
+		p3.getCategorias().addAll(Arrays.asList(catg1, catg4));
+		p4.getCategorias().addAll(Arrays.asList(catg2));
+		p5.getCategorias().addAll(Arrays.asList(catg3));
+		p6.getCategorias().addAll(Arrays.asList(catg3));
+		p7.getCategorias().addAll(Arrays.asList(catg4));
+		p8.getCategorias().addAll(Arrays.asList(catg5));
+		p9.getCategorias().addAll(Arrays.asList(catg6));
+		p10.getCategorias().addAll(Arrays.asList(catg6));
+		p11.getCategorias().addAll(Arrays.asList(catg7));
+		
 				
 		this.categoria.saveAll(Arrays.asList(catg1, catg2, catg3, catg4, catg5, catg6, catg7));
-		this.produto.saveAll(Arrays.asList(p1, p2, p3));
+		this.produto.saveAll(Arrays.asList(p1, p2, p3, p4, p5, p6, p7, p8, p9, p10, p11));
 		
 		Estado est1 = new Estado("Paraíba");
 		Estado est2 = new Estado("Pernambuco");

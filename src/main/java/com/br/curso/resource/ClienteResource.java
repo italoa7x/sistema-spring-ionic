@@ -68,7 +68,6 @@ public class ClienteResource {
 		Cliente obj = service.fromDTO(objDto);
 		obj.setId(id);
 		obj = service.atualizar(obj);
-		
 		return ResponseEntity.noContent().build();
 	}
 

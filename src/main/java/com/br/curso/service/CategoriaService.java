@@ -64,4 +64,6 @@ public class CategoriaService {
 		PageRequest pageRequest = PageRequest.of(page, linesPerPage, Direction.valueOf(direction), orderby);
 		return repository.findAll(pageRequest);
 	}
+
+	
 }

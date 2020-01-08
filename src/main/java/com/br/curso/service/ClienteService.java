@@ -19,6 +19,7 @@ import com.br.curso.dto.ClienteNewDTO;
 import com.br.curso.repository.CidadeRepository;
 import com.br.curso.repository.ClienteRepository;
 import com.br.curso.repository.EnderecoRepository;
+import com.br.curso.service.exception.DataIntegratyException;
 import com.br.curso.service.exception.ObjectNotFoundException;
 
 @Service
@@ -73,7 +74,11 @@ public class ClienteService {
 	}
 
 	public void excluir(Integer id) {
-		repository.deleteById(id);
+		try {
+			repository.deleteById(id);
+		}catch(DataIntegratyException e) {
+			throw new DataIntegratyException("Não é possível exclui o cliente, o mesmo possui pedido relacionados");
+		}
 	}
 
 	public List<Cliente> listar() {

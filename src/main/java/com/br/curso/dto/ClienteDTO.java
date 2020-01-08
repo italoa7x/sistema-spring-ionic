@@ -4,6 +4,7 @@ import java.io.Serializable;
 
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotEmpty;
 
 import org.hibernate.validator.constraints.Length;
 
@@ -13,11 +14,11 @@ import com.br.curso.domain.enuns.TipoCliente;
 public class ClienteDTO implements Serializable {
 
 	private static final long serialVersionUID = 1L;
-	@NotBlank(message = "O nome é obrigatório")
+	@NotEmpty(message = "O nome é obrigatório")
 	@Length(min = 20, max = 100, message = "O nome deve conter entre 20 e 100 caracteris")
 	private String nome;
 
-	@NotBlank(message = "O e-mail é obrigatório.")
+	@NotEmpty(message = "O e-mail é obrigatório.")
 	@Email
 	private String email;
 

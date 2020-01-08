@@ -3,7 +3,9 @@ package com.br.curso.domain;
 import javax.persistence.Entity;
 
 import com.br.curso.domain.enuns.EstadoPagamento;
+import com.fasterxml.jackson.annotation.JsonTypeName;
 @Entity
+@JsonTypeName("pagamentoComCartao")
 public class PagamentoComCartao extends Pagamento {
 	private Integer numeroDeParcelas;
 

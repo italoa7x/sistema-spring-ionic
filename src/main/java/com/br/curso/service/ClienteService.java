@@ -14,6 +14,7 @@ import org.springframework.transaction.annotation.Transactional;
 import com.br.curso.domain.Cidade;
 import com.br.curso.domain.Cliente;
 import com.br.curso.domain.Endereco;
+import com.br.curso.domain.enuns.TipoCliente;
 import com.br.curso.dto.ClienteDTO;
 import com.br.curso.dto.ClienteNewDTO;
 import com.br.curso.repository.CidadeRepository;
@@ -39,7 +40,7 @@ public class ClienteService {
 		cli.setNome(obj.getNome());
 		cli.setEmail(obj.getEmail());
 		cli.setCpfOuCnpj(obj.getCpfOuCnpj());
-		cli.setTipo(obj.getTipo());
+		cli.setTipo(TipoCliente.toEnum(obj.getTipo()));
 		cli.getTelefones().addAll(Arrays.asList(obj.getTelefone1()));
 		if (obj.getTelefone2() != null) {
 			cli.getTelefones().addAll(Arrays.asList(obj.getTelefone2()));

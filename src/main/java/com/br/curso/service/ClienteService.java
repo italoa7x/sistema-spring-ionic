@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort.Direction;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -28,14 +29,17 @@ public class ClienteService {
 	private ClienteRepository repository;
 	@Autowired
 	private EnderecoRepository enderecoRepository;
-	
+	@Autowired
+	private BCryptPasswordEncoder pe;
 
 	public Cliente fromDTO(ClienteDTO objDto) {
-		return new Cliente(objDto.getId(), objDto.getNome(), objDto.getEmail(), null, null);
+		return new Cliente(objDto.getId(), objDto.getNome(), objDto.getEmail(), null, null, null);
 	}
 
 	public Cliente fromDTO(ClienteNewDTO obj) {
 		Cliente cli = new Cliente();
+		// criptografa a senha
+		cli.setSenha(pe.encode(obj.getSenha()));
 		cli.setNome(obj.getNome());
 		cli.setEmail(obj.getEmail());
 		cli.setCpfOuCnpj(obj.getCpfOuCnpj());

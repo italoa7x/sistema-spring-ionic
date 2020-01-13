@@ -12,16 +12,16 @@ import com.br.curso.service.validation.ClienteInsert;
 @ClienteInsert
 public class ClienteNewDTO implements Serializable {
 	private static final long serialVersionUID = 1L;
-	
+
 	@NotEmpty(message = "O nome é obrigatório")
 	@Length(min = 20, max = 100, message = "O nome deve conter entre 20 e 100 caracteris")
 	private String nome;
 	@NotEmpty(message = "O e-mail é obrigatório.")
 	@Email
 	private String email;
-	
+
 	private String cpfOuCnpj;
-	private Integer tipo;	
+	private Integer tipo;
 	@NotEmpty(message = "Preenchimento obrigatório")
 	private String logradouro;
 	@NotEmpty(message = "Preenchimento obrigatório")
@@ -34,6 +34,16 @@ public class ClienteNewDTO implements Serializable {
 	private String telefone1;
 	private String telefone2, telefone3;
 	private Integer cidadeId;
+	@NotEmpty(message =  "Preenchimento obrigatório")
+	private String senha;
+
+	public String getSenha() {
+		return senha;
+	}
+
+	public void setSenha(String senha) {
+		this.senha = senha;
+	}
 
 	public Integer getCidadeId() {
 		return cidadeId;

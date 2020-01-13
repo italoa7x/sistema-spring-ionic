@@ -1,7 +1,6 @@
 package com.br.curso.resource;
 
 import java.net.URI;
-import java.util.Collection;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -23,7 +22,6 @@ import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import com.br.curso.domain.Categoria;
 import com.br.curso.dto.CategoriaDTO;
-import com.br.curso.dto.ClienteDTO;
 import com.br.curso.service.CategoriaService;
 
 @RestController

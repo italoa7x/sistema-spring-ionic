@@ -2,7 +2,7 @@ package com.br.curso.service.exception;
 
 import java.io.Serializable;
 
-public class ObjectNotFoundException extends RuntimeException{
+public class ObjectNotFoundException extends RuntimeException implements Serializable{
 
 	/**
 	 * 

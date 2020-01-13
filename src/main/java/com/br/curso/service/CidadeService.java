@@ -6,9 +6,7 @@ import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.br.curso.domain.Categoria;
 import com.br.curso.domain.Cidade;
-import com.br.curso.dto.CategoriaDTO;
 import com.br.curso.repository.CidadeRepository;
 import com.br.curso.service.exception.ObjectNotFoundException;
 

@@ -17,7 +17,6 @@ import com.br.curso.domain.Endereco;
 import com.br.curso.domain.enuns.TipoCliente;
 import com.br.curso.dto.ClienteDTO;
 import com.br.curso.dto.ClienteNewDTO;
-import com.br.curso.repository.CidadeRepository;
 import com.br.curso.repository.ClienteRepository;
 import com.br.curso.repository.EnderecoRepository;
 import com.br.curso.service.exception.DataIntegratyException;

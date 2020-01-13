@@ -7,7 +7,6 @@ import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -19,11 +18,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.br.curso.domain.Categoria;
 import com.br.curso.domain.Produto;
-import com.br.curso.dto.CategoriaDTO;
 import com.br.curso.dto.ProdutoDTO;
-import com.br.curso.repository.CategoriaRepository;
 import com.br.curso.service.ProdutoService;
 import com.br.curso.service.util.URL;
 

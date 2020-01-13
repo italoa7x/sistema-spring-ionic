@@ -4,7 +4,6 @@ import java.util.Collection;
 import java.util.Date;
 import java.util.Optional;
 
-import org.hibernate.cache.spi.support.AbstractReadWriteAccess.Item;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -13,7 +12,6 @@ import com.br.curso.domain.ItemPedido;
 import com.br.curso.domain.PagamentoComBoleto;
 import com.br.curso.domain.Pedido;
 import com.br.curso.domain.enuns.EstadoPagamento;
-import com.br.curso.domain.enuns.TipoCliente;
 import com.br.curso.repository.ItemPedidoRepository;
 import com.br.curso.repository.PagamentoRepository;
 import com.br.curso.repository.PedidoRepository;

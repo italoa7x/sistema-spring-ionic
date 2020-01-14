@@ -20,6 +20,7 @@ import com.br.curso.domain.PagamentoComCartao;
 import com.br.curso.domain.Pedido;
 import com.br.curso.domain.Produto;
 import com.br.curso.domain.enuns.EstadoPagamento;
+import com.br.curso.domain.enuns.Perfil;
 import com.br.curso.domain.enuns.TipoCliente;
 import com.br.curso.repository.CategoriaRepository;
 import com.br.curso.repository.CidadeRepository;
@@ -110,17 +111,27 @@ public class DBservice {
 		estado.saveAll(Arrays.asList(est1, est2));
 		cidade.saveAll(Arrays.asList(cid1, cid2, cid3));
 
-		Cliente c1 = new Cliente(null, "Italo", "contato.italo1020@gmail.com", TipoCliente.PESSOAFISICA,
+		Cliente c1 = new Cliente(null, "Italo", "italo@gmail.com", TipoCliente.PESSOAFISICA,
 				"041.5123.511-88", pe.encode("123"));
+		
+		Cliente c2 = new Cliente(null, "Bil", "contato.italo1020@gmail.com", TipoCliente.PESSOAFISICA,
+				"774.508.910-77", pe.encode("12345"));
+		c2.addPerfil(Perfil.ADMIN);
+		
 		c1.getTelefones().addAll(Arrays.asList("83-998354447", "3351-1044"));
+		c2.getTelefones().addAll(Arrays.asList("83-57834261"));
+		
 		Endereco e1 = new Endereco("Rua Maria Ana", "05", "Saida pra Sertânia", "Vila manzuá", "58500-000", c1, cid1);
 		Endereco e2 = new Endereco("Roberto de Lima", "25", "Próximo a praça", "Vila popular", "58500-000", c1, cid3);
+		Endereco e3 = new Endereco("Roberto de Lima", "25", "Próximo ao lava rápitio", "Vila popular", "58500-000", c2, cid1);
 
 		c1.getEnderecos().addAll(Arrays.asList(e1, e2));
+		c2.getEnderecos().addAll(Arrays.asList(e3));
+		
 		// salva os clientes
-		cliente.saveAll(Arrays.asList(c1));
+		cliente.saveAll(Arrays.asList(c1, c2));
 		// slava os endereços
-		endereco.saveAll(Arrays.asList(e1, e2));
+		endereco.saveAll(Arrays.asList(e1, e2, e3));
 
 		// objeto de formatação
 		SimpleDateFormat sfd = new SimpleDateFormat("dd/MM/yyyy HH:mm");

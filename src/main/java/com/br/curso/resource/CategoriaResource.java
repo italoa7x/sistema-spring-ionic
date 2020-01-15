@@ -9,6 +9,7 @@ import javax.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -26,6 +27,7 @@ import com.br.curso.service.CategoriaService;
 
 @RestController
 @RequestMapping("/categorias")
+
 public class CategoriaResource {
 	@Autowired
 	private CategoriaService service;
@@ -38,6 +40,7 @@ public class CategoriaResource {
 		return ResponseEntity.ok().body(listaDtos);
 	}
 
+	@PreAuthorize(value = "hasAnyRole('ADMIN')")
 	@PostMapping()
 	public ResponseEntity<Categoria> salvar(@Valid @RequestBody CategoriaDTO catDto) {
 		Categoria obj = service.salvar(service.fromDTO(catDto));
@@ -55,13 +58,14 @@ public class CategoriaResource {
 		Categoria cat = service.buscar(id);
 		return ResponseEntity.ok().body(cat);
 	}
-
+	@PreAuthorize(value = "hasAnyRole('ADMIN')")
 	@DeleteMapping("/{id}")
 	public void excluir(@PathVariable Integer id) {
 		service.excluir(id);
 
 	}
-
+	
+	@PreAuthorize(value = "hasAnyRole('ADMIN')")
 	@PutMapping("/{id}")
 	public ResponseEntity<Categoria> atualizar(@RequestBody CategoriaDTO objDto, @PathVariable Integer id) {
 		Categoria obj = service.fromDTO(objDto);

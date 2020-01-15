@@ -19,43 +19,47 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 import com.br.curso.dto.CredenciaisDTO;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
-public class JwtAuthenticationFilter extends UsernamePasswordAuthenticationFilter {
-	private AuthenticationManager authentication;
-	private JwtUtil jwtUtil;
+public class JWTAuthenticationFilter extends UsernamePasswordAuthenticationFilter {
 
-	public JwtAuthenticationFilter(AuthenticationManager authenticationManager, JwtUtil jwtUtil) {
-		setAuthenticationFailureHandler(new JWTAuthenticationFailureHandler());
-		this.authentication = authenticationManager;
-		this.jwtUtil = jwtUtil;
-	}
+	private AuthenticationManager authenticationManager;
+    
+    private JWTUtil jwtUtil;
 
+    public JWTAuthenticationFilter(AuthenticationManager authenticationManager, JWTUtil jwtUtil) {
+    	setAuthenticationFailureHandler(new JWTAuthenticationFailureHandler());
+        this.authenticationManager = authenticationManager;
+        this.jwtUtil = jwtUtil;
+    }
+	
 	@Override
-	public Authentication attemptAuthentication(HttpServletRequest request, HttpServletResponse response)
-			throws AuthenticationException {
+    public Authentication attemptAuthentication(HttpServletRequest req,
+                                                HttpServletResponse res) throws AuthenticationException {
+
 		try {
-			CredenciaisDTO creden = new ObjectMapper()
-					.readValue(request.getInputStream(), CredenciaisDTO.class);
-			UsernamePasswordAuthenticationToken authenToken = new UsernamePasswordAuthenticationToken(creden.getEmail()
-					, creden.getSenha(), new ArrayList<>());
-			
-			Authentication auth = authentication.authenticate(authenToken);
-			return auth;
-		}catch(IOException e) {
+			CredenciaisDTO creds = new ObjectMapper()
+	                .readValue(req.getInputStream(), CredenciaisDTO.class);
+	
+	        UsernamePasswordAuthenticationToken authToken = new UsernamePasswordAuthenticationToken(creds.getEmail(), creds.getSenha(), new ArrayList<>());
+	        
+	        Authentication auth = authenticationManager.authenticate(authToken);
+	        return auth;
+		}
+		catch (IOException e) {
 			throw new RuntimeException(e);
 		}
-		
-	}
-
-	@Override
-	protected void successfulAuthentication(HttpServletRequest request, HttpServletResponse response,
-			FilterChain chain,
-			Authentication authResult) throws IOException, ServletException {
-
-		String userName = ((UserSS) authResult.getPrincipal()).getUsername();
-		String token = jwtUtil.generateToken(userName);
-		response.addHeader("Authorization", "Bearer" + token);
 	}
 	
+	@Override
+    protected void successfulAuthentication(HttpServletRequest req,
+                                            HttpServletResponse res,
+                                            FilterChain chain,
+                                            Authentication auth) throws IOException, ServletException {
+	
+		String username = ((UserSS) auth.getPrincipal()).getUsername();
+        String token = jwtUtil.generateToken(username);
+        res.addHeader("Authorization", "Bearer " + token);
+        res.addHeader("access-control-expose-headers", "Authorization");
+	}
 	
 	private class JWTAuthenticationFailureHandler implements AuthenticationFailureHandler {
 		 

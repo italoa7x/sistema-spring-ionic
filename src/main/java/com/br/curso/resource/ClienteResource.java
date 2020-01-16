@@ -62,7 +62,7 @@ public class ClienteResource {
 		service.excluir(id);
 
 	}
-
+	
 	@PutMapping("/{id}")
 	public ResponseEntity<Cliente> atualizar(@Valid @RequestBody ClienteDTO objDto, @PathVariable Integer id) {
 		Cliente obj = service.fromDTO(objDto);

@@ -25,6 +25,7 @@ public class CategoriaService {
 		return new Categoria(objDto.getNome());
 	}
 
+	
 	public Categoria salvar(Categoria cat) {
 		cat.setId(null);
 		return repository.save(cat);

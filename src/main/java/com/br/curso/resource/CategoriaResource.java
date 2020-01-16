@@ -33,14 +33,6 @@ public class CategoriaResource {
 	@Autowired
 	private CategoriaService service;
 
-	@GetMapping()
-	public ResponseEntity<List<CategoriaDTO>> listar() {
-		List<Categoria> listaCats = service.listar();
-		List<CategoriaDTO> listaDtos = listaCats.stream().map(obj -> new CategoriaDTO(obj))
-				.collect(Collectors.toList());
-		return ResponseEntity.ok().body(listaDtos);
-	}
-	
 	@PreAuthorize("hasRole('ROLE_ADMIN')")
 	@PostMapping()
 	public ResponseEntity<Categoria> salvar(@Valid @RequestBody CategoriaDTO catDto) {
@@ -74,7 +66,7 @@ public class CategoriaResource {
 		return ResponseEntity.noContent().build();
 	}
 
-	@GetMapping("/page")
+	@GetMapping()
 	public ResponseEntity<Page<CategoriaDTO>> listarPaginacao(@RequestParam(name = "page", defaultValue = "0") Integer page,
 			@RequestParam(name = "linesPerPage", defaultValue = "24") Integer linesPerPage,
 			@RequestParam(name = "orderBy", defaultValue = "nome") String orderBy,

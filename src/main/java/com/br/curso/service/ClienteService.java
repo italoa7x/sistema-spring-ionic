@@ -15,11 +15,14 @@ import org.springframework.transaction.annotation.Transactional;
 import com.br.curso.domain.Cidade;
 import com.br.curso.domain.Cliente;
 import com.br.curso.domain.Endereco;
+import com.br.curso.domain.enuns.Perfil;
 import com.br.curso.domain.enuns.TipoCliente;
 import com.br.curso.dto.ClienteDTO;
 import com.br.curso.dto.ClienteNewDTO;
 import com.br.curso.repository.ClienteRepository;
 import com.br.curso.repository.EnderecoRepository;
+import com.br.curso.security.UserSS;
+import com.br.curso.service.exception.AuthorizationException;
 import com.br.curso.service.exception.DataIntegratyException;
 import com.br.curso.service.exception.ObjectNotFoundException;
 
@@ -90,6 +93,10 @@ public class ClienteService {
 	}
 
 	public Cliente buscar(Integer id) {
+		UserSS user = UserService.authenticated();
+		if(user == null || !user.hasRole(Perfil.ADMIN) && !user.getId().equals(id)) {
+			throw new AuthorizationException("Acesso negado");
+		}
 		Optional<Cliente> obj = repository.findById(id);
 		if (obj.isPresent() == false) {
 			throw new ObjectNotFoundException(

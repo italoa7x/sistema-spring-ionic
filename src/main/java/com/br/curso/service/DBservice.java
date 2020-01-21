@@ -53,6 +53,7 @@ public class DBservice {
 	private ItemPedidoRepository itemPedido;
 	@Autowired
 	private BCryptPasswordEncoder pe;
+	
 
 	public void instantiateDataBase() throws ParseException {
 		Categoria catg1 = new Categoria("informática");
@@ -165,5 +166,6 @@ public class DBservice {
 		p3.getItens().addAll(Arrays.asList(it2));
 
 		itemPedido.saveAll(Arrays.asList(it1, it2, it3));
+		
 	}
 }

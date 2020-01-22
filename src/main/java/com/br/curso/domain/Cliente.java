@@ -53,10 +53,12 @@ public class Cliente implements Serializable {
 	@OneToMany(mappedBy = "cliente")
 	private List<Pedido> pedidos = new ArrayList<Pedido>();
 
-	@ElementCollection(fetch = FetchType.EAGER )
+	@ElementCollection(fetch = FetchType.EAGER)
 	@JoinTable(name = "PERFIS")
 	private Set<Integer> perfis = new HashSet<>();
-	
+
+	private String imageURL;
+
 	public Cliente() {
 		this.addPerfil(Perfil.CLIENTE);
 	}
@@ -72,6 +74,14 @@ public class Cliente implements Serializable {
 		this.addPerfil(Perfil.CLIENTE);
 	}
 
+	public String getImageURL() {
+		return imageURL;
+	}
+
+	public void setImageURL(String imageURL) {
+		this.imageURL = imageURL;
+	}
+
 	public String getSenha() {
 		return senha;
 	}
@@ -79,11 +89,11 @@ public class Cliente implements Serializable {
 	public void setSenha(String senha) {
 		this.senha = senha;
 	}
-	
-	public Set<Perfil> getPerfis(){
+
+	public Set<Perfil> getPerfis() {
 		return perfis.stream().map(p -> Perfil.toEnum(p)).collect(Collectors.toSet());
 	}
-	
+
 	public void addPerfil(Perfil p) {
 		perfis.add(p.getCod());
 	}

@@ -1,5 +1,6 @@
 package com.br.curso.service;
 
+import java.net.URI;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
@@ -11,6 +12,7 @@ import org.springframework.data.domain.Sort.Direction;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.br.curso.domain.Cidade;
 import com.br.curso.domain.Cliente;
@@ -34,6 +36,8 @@ public class ClienteService {
 	private EnderecoRepository enderecoRepository;
 	@Autowired
 	private BCryptPasswordEncoder pe;
+	@Autowired
+	private S3Service s3Service;
 
 	public Cliente fromDTO(ClienteDTO objDto) {
 		return new Cliente(objDto.getId(), objDto.getNome(), objDto.getEmail(), null, null, null);
@@ -121,4 +125,8 @@ public class ClienteService {
 		return repository.findAll(pageRequest);
 	}
 
+	
+	public URI uploadFotoPerfil(MultipartFile multiPart) {
+		return s3Service.uploadFile(multiPart);
+	}
 }

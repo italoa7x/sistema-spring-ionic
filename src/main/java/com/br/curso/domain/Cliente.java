@@ -57,7 +57,6 @@ public class Cliente implements Serializable {
 	@JoinTable(name = "PERFIS")
 	private Set<Integer> perfis = new HashSet<>();
 
-	private String imageURL;
 
 	public Cliente() {
 		this.addPerfil(Perfil.CLIENTE);
@@ -72,14 +71,6 @@ public class Cliente implements Serializable {
 		this.cpfOuCnpj = cpfOuCnpj;
 		this.senha = senha;
 		this.addPerfil(Perfil.CLIENTE);
-	}
-
-	public String getImageURL() {
-		return imageURL;
-	}
-
-	public void setImageURL(String imageURL) {
-		this.imageURL = imageURL;
 	}
 
 	public String getSenha() {

@@ -1,11 +1,13 @@
 package com.br.curso.service;
 
+import java.awt.image.BufferedImage;
 import java.net.URI;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort.Direction;
@@ -38,6 +40,10 @@ public class ClienteService {
 	private BCryptPasswordEncoder pe;
 	@Autowired
 	private S3Service s3Service;
+	@Autowired
+	private ImageService imageService;
+	@Value("${img.prefix.client.profile}")
+	String clientNamePrefix;
 
 	public Cliente fromDTO(ClienteDTO objDto) {
 		return new Cliente(objDto.getId(), objDto.getNome(), objDto.getEmail(), null, null, null);
@@ -87,7 +93,7 @@ public class ClienteService {
 	public void excluir(Integer id) {
 		try {
 			repository.deleteById(id);
-		}catch(DataIntegratyException e) {
+		} catch (DataIntegratyException e) {
 			throw new DataIntegratyException("Não é possível exclui o cliente, o mesmo possui pedido relacionados");
 		}
 	}
@@ -98,7 +104,7 @@ public class ClienteService {
 
 	public Cliente buscar(Integer id) {
 		UserSS user = UserService.authenticated();
-		if(user == null || !user.hasRole(Perfil.ADMIN) && !user.getId().equals(id)) {
+		if (user == null || !user.hasRole(Perfil.ADMIN) && !user.getId().equals(id)) {
 			throw new AuthorizationException("Acesso negado");
 		}
 		Optional<Cliente> obj = repository.findById(id);
@@ -119,22 +125,20 @@ public class ClienteService {
 		newObj.setNome(obj.getNome());
 		newObj.setEmail(obj.getEmail());
 	}
-	
+
 	public Page<Cliente> listarPaginacao(Integer page, Integer linesPerPage, String orderby, String direction) {
 		PageRequest pageRequest = PageRequest.of(page, linesPerPage, Direction.valueOf(direction), orderby);
 		return repository.findAll(pageRequest);
 	}
 
-	
 	public URI uploadFotoPerfil(MultipartFile multiPart) {
 		UserSS user = UserService.authenticated();
-		if(user == null) {
+		if (user == null) {
 			throw new AuthorizationException("Acesso negado");
 		}
-		URI uri = s3Service.uploadFile(multiPart);
-		Cliente cli = this.repository.findById(user.getId()).get();
-		cli.setImageURL(uri.toString());
-		this.repository.save(cli);
-		return uri;
+
+		BufferedImage jpgImage = imageService.getJpgImage(multiPart);
+		String fileName = clientNamePrefix + user.getId() + ".jpg";
+		return s3Service.uploadFile(imageService.getInputStream(jpgImage, "jpg"), fileName, "image");
 	}
 }

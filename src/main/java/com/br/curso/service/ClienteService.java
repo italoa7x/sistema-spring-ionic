@@ -40,11 +40,15 @@ public class ClienteService {
 	private BCryptPasswordEncoder pe;
 	@Autowired
 	private S3Service s3Service;
+	
 	@Autowired
 	private ImageService imageService;
+	
 	@Value("${img.prefix.client.profile}")
 	String clientNamePrefix;
-
+	@Value("${imag.profile.size}")
+	private Integer size;
+	
 	public Cliente fromDTO(ClienteDTO objDto) {
 		return new Cliente(objDto.getId(), objDto.getNome(), objDto.getEmail(), null, null, null);
 	}
@@ -138,6 +142,9 @@ public class ClienteService {
 		}
 
 		BufferedImage jpgImage = imageService.getJpgImage(multiPart);
+		jpgImage = imageService.cropSquare(jpgImage);
+		jpgImage = imageService.resize(jpgImage, size);
+		
 		String fileName = clientNamePrefix + user.getId() + ".jpg";
 		return s3Service.uploadFile(imageService.getInputStream(jpgImage, "jpg"), fileName, "image");
 	}

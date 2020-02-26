@@ -1,21 +1,21 @@
 package com.br.curso.resource;
 
-import java.util.Collection;
-
-import javax.validation.Valid;
+import java.util.List;
+import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.br.curso.domain.Cidade;
 import com.br.curso.domain.Estado;
+import com.br.curso.dto.CidadeDTO;
+import com.br.curso.dto.EstadoDTO;
+import com.br.curso.service.CidadeService;
 import com.br.curso.service.EstadoService;
 
 @RestController
@@ -23,44 +23,20 @@ import com.br.curso.service.EstadoService;
 public class EstadoResource {
 	@Autowired
 	private EstadoService service;
+	@Autowired
+	private CidadeService cidadeService;
 
 	@GetMapping()
-	public Collection<Estado> listar() {
-		return service.listar();
+	public ResponseEntity<List<EstadoDTO>> listarTodos(String nome) {
+		List<Estado> estado = service.listarTodos();
+		List<EstadoDTO> estadosDto = estado.stream().map(e -> new EstadoDTO(e)).collect(Collectors.toList());
+		return ResponseEntity.ok().body(estadosDto);
 	}
-
-	@PostMapping()
-	public ResponseEntity<Estado> salvar(@Valid @RequestBody Estado obj) {
-		obj = service.salvar(obj);
-		if (obj != null) {
-			return ResponseEntity.ok().body(obj);
-		}
-		throw new RuntimeException("Erro ao salvar Estado.");
-
-	}
-
-	@GetMapping("/{id}")
-	public ResponseEntity<Estado> buscarPorId(@PathVariable Integer id) {
-		Estado cat = service.buscar(id);
-		return ResponseEntity.ok().body(cat);
-	}
-
-	@DeleteMapping("/{id}")
-	public Collection<Estado> excluir(@PathVariable Integer id) {
-		boolean response = service.excluir(id);
-		if (response) {
-			return service.listar();
-		}
-		throw new RuntimeException("Erro ao excluir Estado");
-	}
-
-	@PutMapping("/{id}")
-	public Estado atualizar(@PathVariable Integer idCat, @RequestBody Estado cat) {
-		cat.setId(idCat);
-		cat = service.atualizar(cat);
-		if (cat != null) {
-			return cat;
-		}
-		throw new RuntimeException("Erro ao atualizar Estado");
+	
+	@GetMapping("/{estadoId}/cidades")
+	public ResponseEntity<List<CidadeDTO>> listarCidadesPorEstado(@PathVariable String estadoId) {
+		List<Cidade> cidade = cidadeService.buscarEstado(Integer.parseInt(estadoId));
+		List<CidadeDTO> cidadesDto = cidade.stream().map(c -> new CidadeDTO(c)).collect(Collectors.toList());
+		return ResponseEntity.ok().body(cidadesDto);
 	}
 }

@@ -58,6 +58,13 @@ public class ClienteResource {
 		Cliente cat = service.buscar(id);
 		return ResponseEntity.ok().body(cat);
 	}
+	
+	@GetMapping("/email")
+	public ResponseEntity<Cliente> buscarPorId(@RequestParam(value = "value") String email) {
+		Cliente cat = service.buscarPorEmail(email);
+		return ResponseEntity.ok().body(cat);
+	}
+	
 	@PreAuthorize("hasRole('ROLE_ADMIN')")
 	@DeleteMapping("/{id}")
 	public void excluir(@PathVariable Integer id) {

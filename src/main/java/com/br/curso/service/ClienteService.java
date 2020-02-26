@@ -119,6 +119,19 @@ public class ClienteService {
 		return obj.get();
 	}
 
+	public Cliente buscarPorEmail(String email) {
+		UserSS user = UserService.authenticated();
+		if (user == null || !user.hasRole(Perfil.ADMIN) && !email.equals(user.getUsername())) {
+			throw new AuthorizationException("Acesso negado");
+		}
+		Cliente obj = repository.findByEmail(email);
+		if (obj == null) {
+			throw new ObjectNotFoundException(
+					"Objeto não encontrado. Email: " + email + ", Tipo: " + Cliente.class.getName());
+		}
+		return obj;
+	}
+	
 	public Cliente atualizar(Cliente obj) {
 		Cliente newObj = buscar(obj.getId());
 		atualizarDados(newObj, obj);

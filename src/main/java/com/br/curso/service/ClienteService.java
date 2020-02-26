@@ -27,7 +27,7 @@ import com.br.curso.repository.ClienteRepository;
 import com.br.curso.repository.EnderecoRepository;
 import com.br.curso.security.UserSS;
 import com.br.curso.service.exception.AuthorizationException;
-import com.br.curso.service.exception.DataIntegratyException;
+import com.br.curso.service.exception.DataIntegrityException;
 import com.br.curso.service.exception.ObjectNotFoundException;
 
 @Service
@@ -97,8 +97,8 @@ public class ClienteService {
 	public void excluir(Integer id) {
 		try {
 			repository.deleteById(id);
-		} catch (DataIntegratyException e) {
-			throw new DataIntegratyException("Não é possível exclui o cliente, o mesmo possui pedido relacionados");
+		} catch (DataIntegrityException e) {
+			throw new DataIntegrityException("Não é possível exclui o cliente, o mesmo possui pedido relacionados");
 		}
 	}
 

@@ -17,8 +17,4 @@ public class EstadoService {
 	public List<Estado> listarTodos() {
 		return repository.findAllByOrderByNome();
 	}
-	
-//	public List<Cidade> listarCidadesPorEstado(String estado){
-//		return repository.findCidadeByEstado(estado);
-//	}
 }

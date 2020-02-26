@@ -6,15 +6,31 @@ public class StandardError implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 
+	private Long timestamp;
 	private Integer status;
-	private String msg;
-	private Long TimesStamp;
+	private String error;
+	private String message;
+	private String path;
 
-	public StandardError(Integer status, String msg, Long timesStamp) {
+	public StandardError(Long timestamp, Integer status, String error, String message, String path) {
 		super();
+		this.timestamp = timestamp;
 		this.status = status;
-		this.msg = msg;
-		TimesStamp = timesStamp;
+		this.error = error;
+		this.message = message;
+		this.path = path;
+	}
+
+	public StandardError() {
+		// TODO Auto-generated constructor stub
+	}
+
+	public Long getTimestamp() {
+		return timestamp;
+	}
+
+	public void setTimestamp(Long timestamp) {
+		this.timestamp = timestamp;
 	}
 
 	public Integer getStatus() {
@@ -25,20 +41,28 @@ public class StandardError implements Serializable {
 		this.status = status;
 	}
 
-	public String getMsg() {
-		return msg;
+	public String getError() {
+		return error;
 	}
 
-	public void setMsg(String msg) {
-		this.msg = msg;
+	public void setError(String error) {
+		this.error = error;
 	}
 
-	public Long getTimesStamp() {
-		return TimesStamp;
+	public String getMessage() {
+		return message;
 	}
 
-	public void setTimesStamp(Long timesStamp) {
-		TimesStamp = timesStamp;
+	public void setMessage(String message) {
+		this.message = message;
+	}
+
+	public String getPath() {
+		return path;
+	}
+
+	public void setPath(String path) {
+		this.path = path;
 	}
 
 }
